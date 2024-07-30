@@ -2,7 +2,7 @@
 
 import React from "react";
 import styles from "../styles/index.module.css";
-import Chat from "../components/chat";
+import Chat from "../app/components/chat";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 
 const FunctionCalling = () => {
