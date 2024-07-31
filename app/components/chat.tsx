@@ -13,6 +13,8 @@ type MessageProps = {
   text: string;
 };
 
+ 
+
 const UserMessage = ({ text }: { text: string }) => {
   return <div className={styles.userMessage}>{text}</div>;
 };

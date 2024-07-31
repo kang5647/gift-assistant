@@ -19,13 +19,13 @@ const FunctionCalling = () => {
       const products = await callLazadaApi(keywords, site);
 
       if (products && products.length > 0) {
-        const topProducts = products.slice(0, 3);
-        const productInfo = topProducts.map((product) => ({
-          title: product.title,
-          price: product.price_info,
-          link: product.product_url,
-        }));
-        return JSON.stringify({ top_products: productInfo });
+        //const topProducts = products.slice(0, 3);
+        // const productInfo = topProducts.map((product) => ({
+        //   title: product.title,
+        //   price: product.price_info,
+        //   link: product.product_url,
+        // }));
+        return JSON.stringify({ top_products: products });
       } else {
         return JSON.stringify({ message: "No products found." });
       }
