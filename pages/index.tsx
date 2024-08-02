@@ -47,12 +47,19 @@ const FunctionCalling = () => {
     urlWithParams.searchParams.append('page', '1');
 
     try {
+      const headers: HeadersInit = {
+        'x-rapidapi-host': 'lazada-api.p.rapidapi.com',
+      };
+
+      if (apiKey) {
+        headers['x-rapidapi-key'] = apiKey;
+      } else {
+        console.warn('API key is undefined');
+      }
+
       const response = await fetch(urlWithParams, {
         method: 'GET',
-        headers: {
-          'x-rapidapi-key': apiKey,
-          'x-rapidapi-host': 'lazada-api.p.rapidapi.com',
-        },
+        headers: headers,
       });
 
       if (!response.ok) {
@@ -67,6 +74,7 @@ const FunctionCalling = () => {
       throw error;
     }
   };
+
 
   return (
     <main className={styles.main}>

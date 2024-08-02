@@ -49,13 +49,13 @@ type ChatProps = {
 const Chat = ({
   functionCallHandler = () => Promise.resolve(""), // default to return empty string
 }: ChatProps) => {
-    const [userInput, setUserInput] = useState("");
-    const [messages, setMessages] = useState([]);
-    const [inputDisabled, setInputDisabled] = useState(false);
-    const [threadId, setThreadId] = useState("");
+    const [userInput, setUserInput] = useState<string>("");
+    const [messages, setMessages] = useState<MessageProps[]>([]);
+    const [inputDisabled, setInputDisabled] = useState<boolean>(false);
+    const [threadId, setThreadId] = useState<string>("");
 
-    // automatically scroll to bottom of chat
-    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -85,8 +85,13 @@ const Chat = ({
             }),
         }
         );
-        const stream = AssistantStream.fromReadableStream(response.body);
-        handleReadableStream(stream);
+        if (response.body){
+            const stream = AssistantStream.fromReadableStream(response.body);
+            handleReadableStream(stream);
+        }
+        else{
+            console.log("No response body");
+        }
     };
 
     const submitActionResult = async (runId: string, toolCallOutputs: any[]) => {
@@ -103,18 +108,22 @@ const Chat = ({
             }),
         }
         );
-
-        const stream = AssistantStream.fromReadableStream(response.body);
-        handleReadableStream(stream);
+        if (response.body){
+            const stream = AssistantStream.fromReadableStream(response.body);
+            handleReadableStream(stream);
+        } else {
+            console.log("No response body");
+        }
+       
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         if (!userInput.trim()) return;
         sendMessage(userInput);
         setMessages((prevMessages) => [
-        ...prevMessages,
-        { role: "user", text: userInput },
+            ...prevMessages,
+            { role: "user", text: userInput },
         ]);
         setUserInput("");
         setInputDisabled(true);
